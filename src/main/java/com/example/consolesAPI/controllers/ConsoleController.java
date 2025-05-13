@@ -3,6 +3,8 @@ package com.example.consolesAPI.controllers;
 import com.example.consolesAPI.dto.ConsolesDTO;
 import com.example.consolesAPI.entities.Consoles;
 import com.example.consolesAPI.repositories.ConsolesRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/lista")
-public class ListaController {
-
+@RequestMapping("/console")
+@Tag(name = "Consoles", description = "Endpoints relacionados aos consoles de videogame")
+public class ConsoleController {
 
     @Autowired
     ConsolesRepository consolesRepository;
 
     @GetMapping("/all")
+    @Operation(summary = "Listar todos os consoles")
     public ResponseEntity<List<Consoles>> buscar() {
         List<Consoles> lista = consolesRepository.findAll();
         if (lista.isEmpty()) {
@@ -30,14 +33,15 @@ public class ListaController {
     }
 
     @PostMapping("/new")
+    @Operation(summary = "Cadastrar um novo console")
     public ResponseEntity<String> createConsole(@RequestBody ConsolesDTO dados) {
         Consoles newConsole = new Consoles(dados);
         consolesRepository.save(newConsole);
         return ResponseEntity.status(HttpStatus.CREATED).body("Console cadastrado com sucesso!");
     }
 
-
     @PutMapping("/edit/{id}")
+    @Operation(summary = "Editar um console pelo ID")
     public ResponseEntity<?> updateConsole(@PathVariable Long id, @RequestBody ConsolesDTO dados) {
         Optional<Consoles> existingConsoles = consolesRepository.findById(id);
 
@@ -46,32 +50,26 @@ public class ListaController {
             update.setNome(dados.nome());
             update.setAno(dados.ano());
             update.setDescricao(dados.descricao());
-            update.setFavoritar(dados.favoritar());
+            update.setAvaliacao(dados.avaliacao());
             update.setUrlImg(dados.urlImg());
 
             consolesRepository.save(update);
-
-            return ResponseEntity.ok("Atualizado com sucesso !");
+            return ResponseEntity.ok("Atualizado com sucesso!");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Console não encontrado");
         }
     }
 
     @DeleteMapping("/dell/{id}")
+    @Operation(summary = "Deletar um console pelo ID")
     public ResponseEntity<?> dellConsole(@PathVariable Long id) {
         Optional<Consoles> existingConsoles = consolesRepository.findById(id);
 
         if (existingConsoles.isPresent()) {
             consolesRepository.deleteById(id);
-            return ResponseEntity.ok("Usuário deletado com sucesso");
-
+            return ResponseEntity.ok("Console deletado com sucesso!");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado para o ID fornecido: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Console não encontrado para o ID fornecido: " + id);
         }
     }
 }
-
-
-
-
-
