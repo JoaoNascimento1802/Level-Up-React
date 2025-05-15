@@ -39,6 +39,10 @@ public class Consoles {
     @Schema(description = "URL da imagem representando o console", example = "https://exemplo.com/imagem.jpg")
     private String urlImg;
 
+    @Column(name = "favorito")
+    private boolean favorito = false;
+
+
     public Consoles() {
     }
 
@@ -108,4 +112,14 @@ public class Consoles {
     public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
     }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
+    }
+
 }
+

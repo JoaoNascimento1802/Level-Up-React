@@ -72,4 +72,28 @@ public class ConsoleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Console não encontrado para o ID fornecido: " + id);
         }
     }
+
+    @PutMapping("/favorito/{id}")
+    @Operation(summary = "Favoritar ou desfavoritar um console")
+    public ResponseEntity<?> favoritarConsole(@PathVariable Long id, @RequestParam boolean favorito) {
+        Optional<Consoles> consoleOpt = consolesRepository.findById(id);
+        if (consoleOpt.isPresent()) {
+            Consoles console = consoleOpt.get();
+            console.setFavorito(favorito);
+            consolesRepository.save(console);
+            return ResponseEntity.ok("Console atualizado como favorito = " + favorito);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Console não encontrado");
+        }
+    }
+
+    @GetMapping("/favoritos")
+    @Operation(summary = "Listar apenas os consoles favoritos")
+    public ResponseEntity<List<Consoles>> listarFavoritos() {
+        List<Consoles> favoritos = consolesRepository.findByFavoritoTrue();
+        return favoritos.isEmpty()
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(favoritos)
+                : ResponseEntity.ok(favoritos);
+    }
+
 }
