@@ -19,8 +19,8 @@
 
 ## 📁 Estrutura
 
-- `main` – Contém o código-fonte do front-end em React.
-- `main_backend` – Contém o código-fonte do back-end em Spring Boot.
+- `Main_App` – Contém o código-fonte do front-end em React.
+- `Main_Backend` – Contém o código-fonte do back-end em Spring Boot.
 
 ## 💻 Pré-requisitos
 
