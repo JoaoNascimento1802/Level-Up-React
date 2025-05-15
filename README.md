@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# Level Up - React & Spring Boot CRUD
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![GitHub repo size](https://img.shields.io/github/repo-size/JoaoNascimento1802/Level-Up-React?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/JoaoNascimento1802/Level-Up-React?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/JoaoNascimento1802/Level-Up-React?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/JoaoNascimento1802/Level-Up-React?style=for-the-badge)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/JoaoNascimento1802/Level-Up-React?style=for-the-badge)
 
-## Get started
+> Este projeto é um CRUD completo de gerenciamento de videogames, utilizando **React** no front-end e **Spring Boot** no back-end. Os dados são persistidos em um banco de dados **MySQL** e a API REST permite operações de criação, leitura, atualização e remoção de jogos eletrônicos.
 
-1. Install dependencies
+## 🧩 Tecnologias Utilizadas
 
-   ```bash
-   npm install
-   ```
+- ✅ React (Front-end)
+- ✅ Spring Boot (Back-end)
+- ✅ Java 21
+- ✅ MySQL
+- ✅ Axios
+- ✅ Bootstrap
 
-2. Start the app
+## 📁 Estrutura
 
-   ```bash
-   npx expo start
-   ```
+- `main` – Contém o código-fonte do front-end em React.
+- `main_backend` – Contém o código-fonte do back-end em Spring Boot.
 
-In the output, you'll find options to open the app in a
+## 💻 Pré-requisitos
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Antes de começar, você vai precisar ter instalado em sua máquina:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- [Node.js](https://nodejs.org/)
+- [Java 21](https://jdk.java.net/21/)
+- [MySQL](https://www.mysql.com/)
+- [Maven](https://maven.apache.org/)
 
-## Get a fresh project
+## 🚀 Executando o projeto
 
-When you're ready, run:
+### 1. Clone o repositório
 
 ```bash
-npm run reset-project
+git clone https://github.com/JoaoNascimento1802/Level-Up-React.git
+cd Level-Up-React
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Inicie o back-end
 
-## Learn more
+```bash
+git checkout main_backend
+# Configure o application.properties com as credenciais do MySQL
+./mvnw spring-boot:run
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Inicie o front-end
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+git checkout main
+npm install
+npm run dev
+```
 
-## Join the community
+Acesse o projeto em `http://localhost:5173` (ou conforme o indicado no terminal).
 
-Join our community of developers creating universal apps.
+## 🕹 Funcionalidades
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- ✅ Cadastrar videogames
+- ✅ Listar videogames cadastrados
+- ✅ Editar informações de um videogame
+- ✅ Excluir videogames
+- ✅ Comunicação total com a API RESTful via Axios
+
+## 🤝 Desenvolvedores
+
+- João Emanuel – [@JoaoNascimento1802](https://github.com/JoaoNascimento1802)  
+- Felipe Araújo – [@fearaujo293](https://github.com/fearaujo293)  
+- Nicolas Henrique – [@Nicoo200](https://github.com/Nicoo200)  
+
+## 📝 Licença
+
+Este projeto está licenciado sob os termos do arquivo [LICENSE](LICENSE.md).
+
+> Projeto desenvolvido como parte da formação técnica no SENAI, com foco em aplicações web fullstack.
