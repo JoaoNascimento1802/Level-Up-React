@@ -3,41 +3,62 @@ package com.example.consolesAPI.controllers;
 import com.example.consolesAPI.dto.ConsolesDTO;
 import com.example.consolesAPI.entities.Consoles;
 import com.example.consolesAPI.repositories.ConsolesRepository;
+import com.example.consolesAPI.config.CloudinaryService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/console")
+@CrossOrigin(origins = "*")
 @Tag(name = "Consoles", description = "Endpoints relacionados aos consoles de videogame")
 public class ConsoleController {
 
     @Autowired
-    ConsolesRepository consolesRepository;
+    private ConsolesRepository consolesRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("/all")
     @Operation(summary = "Listar todos os consoles")
     public ResponseEntity<List<Consoles>> buscar() {
         List<Consoles> lista = consolesRepository.findAll();
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(lista);
-        } else {
-            return ResponseEntity.ok(lista);
-        }
+        return lista.isEmpty()
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(lista)
+                : ResponseEntity.ok(lista);
     }
 
     @PostMapping("/new")
-    @Operation(summary = "Cadastrar um novo console")
-    public ResponseEntity<String> createConsole(@RequestBody ConsolesDTO dados) {
-        Consoles newConsole = new Consoles(dados);
-        consolesRepository.save(newConsole);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Console cadastrado com sucesso!");
+    @Operation(summary = "Cadastrar um novo console com imagem")
+    public ResponseEntity<String> createConsole(
+            @RequestPart("console") ConsolesDTO dados,
+            @RequestPart("imagem") MultipartFile imagem) {
+
+        try {
+            Map<String, Object> uploadResult = cloudinaryService.uploadImage(imagem);
+            String urlImg = uploadResult.get("secure_url").toString();
+
+            Consoles newConsole = new Consoles(dados);
+            newConsole.setUrlImg(urlImg);
+            consolesRepository.save(newConsole);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Console cadastrado com sucesso!");
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao fazer upload da imagem: " + e.getMessage());
+        }
     }
 
     @PutMapping("/edit/{id}")
@@ -95,5 +116,4 @@ public class ConsoleController {
                 ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(favoritos)
                 : ResponseEntity.ok(favoritos);
     }
-
 }
